@@ -107,15 +107,14 @@ class bird(menu):
         pygame.mixer.music.load('music/wing.mp3')
         pygame.mixer.music.play()
     def collide(self, other):
-        return (other.rect.collidepoint(self.rect.topleft) or
-                other.rect.collidepoint(self.rect.topright) or
-                other.rect.collidepoint(self.rect.bottomleft) or
-                other.rect.collidepoint(self.rect.bottomright) or
-                other.rect01.collidepoint(self.rect.topleft) or
-                other.rect01.collidepoint(self.rect.topright) or
-                other.rect01.collidepoint(self.rect.bottomleft) or
-                other.rect01.collidepoint(self.rect.bottomright))
-                
+        return (other.rect.collidepoint(self.rect.topleft[0]+15,self.rect.topright[1]+10) or
+                other.rect.collidepoint(self.rect.topright[0]-15,self.rect.topright[1]+10) or
+                other.rect.collidepoint(self.rect.bottomleft[0]+15,self.rect.bottomleft[1]-10) or
+                other.rect.collidepoint(self.rect.bottomright[0]-15,self.rect.bottomright[1]-10) or
+                other.rect01.collidepoint(self.rect.topleft[0]+15,self.rect.topright[1]-10) or
+                other.rect01.collidepoint(self.rect.topright[0]-15,self.rect.topright[1]-10) or
+                other.rect01.collidepoint(self.rect.bottomleft[0]+30,self.rect.bottomleft[1]-15) or
+                other.rect01.collidepoint(self.rect.bottomright[0]-15,self.rect.bottomright[1]-15))
 
 #       
 class tube(menu):
@@ -176,7 +175,6 @@ def first_menu01():
     tap2.draw_menu()
 # print game over
 def game_over_menu():
-    stop_mp3()
     clock.tick(25)
     game_over_title.draw_menu()
     game_over_table.draw_menu()
@@ -296,14 +294,23 @@ tube03=tube(600,0,50,height,'tube',0)
 tube03_1=tube(600,0,50,height,'tube',2)
 # 
 run=True
+die=False
 RED = (255, 0, 0)
 while run:
     # first_menu01()
     # first_menu02()
-    # game_over_menu()
+    # if die==True:
+    #     game_over_menu()
     # select_map_01()
     # select_map_02()
-    ingame_bird01()
+    if die==False:
+        ingame_bird01()
+        if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
+            pygame.mixer.music.load('music/hit.mp3')
+            pygame.mixer.music.play()
+            die=True
+        if bird01.collide(tube01_1) or bird01.collide(tube02_1) or bird01.collide(tube03_1):
+            die=True
     # ingame_bird02()
     # ingame_bird03()
     # ingame_bird04()
@@ -312,17 +319,14 @@ while run:
             run=False
         if event.type==KEYDOWN:
             if event.key==K_SPACE:
-                bird01.jump()
-                bird02.jump()
-                bird03.jump()
-                bird04.jump()
-    # 
-    print(bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03))
-    if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
-        game_over_menu()
-    if bird01.collide(tube01_1) or bird01.collide(tube02_1) or bird01.collide(tube03_1):
-        game_over_menu()
+                if die==False:
+                    bird01.jump()
+                    bird02.jump()
+                    bird03.jump()
+                    bird04.jump()
     # dòng phía dưới để vẽ ra dễ hình dung ống phía dưới
+    # pygame.draw.rect(screen, RED, bird01.rect, 2)
+    # pygame.draw.rect(screen, RED, tube01.rect, 2)
     # pygame.draw.rect(screen, RED, tube01.rect01, 2)
     pygame.display.flip()
 pygame.quit()
