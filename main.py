@@ -76,7 +76,6 @@ class menu(pygame.sprite.Sprite):
         self.rect.x-=1
         if self.rect.x<=315:
             self.rect.x=320
-        print(self.rect.x)
     def next02_select_map(self):
         img=pygame.image.load(f'pic/png/{self.folder_name}/{self.file_name}.png').convert_alpha()
         self.image=pygame.transform.scale(pygame.transform.flip(img, True, False),(self.width,self.height)) 
@@ -104,8 +103,8 @@ class bird(menu):
         self.rect.y+=self.movement
     def jump(self):
         self.movement=-8
-        pygame.mixer.music.load('music/wing.mp3')
-        pygame.mixer.music.play()
+        jump_mp3=pygame.mixer.Sound('music/wing.mp3')
+        jump_mp3.play()
     def collide(self, other):
         return (other.rect.collidepoint(self.rect.topleft[0]+15,self.rect.topright[1]+10) or
                 other.rect.collidepoint(self.rect.topright[0]-15,self.rect.topright[1]+10) or
@@ -140,40 +139,29 @@ class tube(menu):
         screen.blit(self.image,self.rect)
         screen.blit(self.img1,self.rect01)
 # print first menu
+def first_menu():
+    title.draw_menu()
+    getready.draw_menu()
+    bird_bg.bird_bg()
+    bird_bg.draw_menu()
+    rate.draw_menu()
+    menu_map.draw_menu()
+    suggetions01.sugestion_animations_01()
+    suggetions01.draw_menu()
+    suggetions02.sugestion_animations_01()
+    suggetions02.draw_menu()
+    tap1.sugestion_animations_02()
+    tap1.draw_menu()
+    tap2.sugestion_animations_02()
+    tap2.draw_menu()
 def first_menu02():
     clock.tick(25)
     background02.draw_bg_animations()
-    title.draw_menu()
-    getready.draw_menu()
-    bird_bg.bird_bg()
-    bird_bg.draw_menu()
-    rate.draw_menu()
-    menu_map.draw_menu()
-    suggetions01.sugestion_animations_01()
-    suggetions01.draw_menu()
-    suggetions02.sugestion_animations_01()
-    suggetions02.draw_menu()
-    tap1.sugestion_animations_02()
-    tap1.draw_menu()
-    tap2.sugestion_animations_02()
-    tap2.draw_menu()
+    first_menu()
 def first_menu01():
     clock.tick(25)
     background01.draw_bg_animations()
-    title.draw_menu()
-    getready.draw_menu()
-    bird_bg.bird_bg()
-    bird_bg.draw_menu()
-    rate.draw_menu()
-    menu_map.draw_menu()
-    suggetions01.sugestion_animations_01()
-    suggetions01.draw_menu()
-    suggetions02.sugestion_animations_01()
-    suggetions02.draw_menu()
-    tap1.sugestion_animations_02()
-    tap1.draw_menu()
-    tap2.sugestion_animations_02()
-    tap2.draw_menu()
+    first_menu()
 # print game over
 def game_over_menu():
     clock.tick(25)
@@ -221,24 +209,28 @@ def draw_tube_of_bird_2_4():
     tube03_1.draw_tube()
     tube03_1.tub_animations()
 def ingame_bird01():
+    stop_mp3()
     clock.tick(60)
     background01.draw_bg_animations()
     bird01.draw_menu()
     bird01.bird_animations()
     draw_tube_of_bird_1_3()
 def ingame_bird02():
+    stop_mp3()
     clock.tick(60)
     background02.draw_bg_animations()
     bird02.draw_menu()
     bird02.bird_animations()
     draw_tube_of_bird_2_4()
 def ingame_bird03():
+    stop_mp3()
     clock.tick(60)
     background02.draw_bg_animations()
     bird03.draw_menu()
     bird03.bird_animations()
     draw_tube_of_bird_1_3()
 def ingame_bird04():
+    stop_mp3()
     clock.tick(60)
     background02.draw_bg_animations()
     bird04.draw_menu()
@@ -340,7 +332,7 @@ tube03_1=tube(600,0,50,height,'tube',2)
 socer=menu(210,25,20,25,'socer',0)
 socer_last=menu(190,25,20,25,'socer',0)  
 # select bird
-select_bird=4
+select_bird=1
 run=True
 die=False
 # check border
@@ -350,11 +342,11 @@ while run:
     # first_menu02()
     # select_map_01()
     # select_map_02()
-    if die==False:
-        die=choose_bird(die)
-        socring_system()
-    if die==True:
-        game_over_menu()
+    # if die==False:
+    #     die=choose_bird(die)
+    #     socring_system()
+    # if die==True:
+    #     game_over_menu()
     for event in pygame.event.get():
         if event.type==QUIT:
             run=False
