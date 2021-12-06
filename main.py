@@ -306,7 +306,7 @@ while run:
     if die==False:
         ingame_bird01()
         if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
-            pygame.mixer.music.load('music/hit.mp3')
+            pygame.mixer.music.load('music/game_over_real.mp3')
             pygame.mixer.music.play()
             die=True
         if bird01.collide(tube01_1) or bird01.collide(tube02_1) or bird01.collide(tube03_1):
