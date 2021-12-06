@@ -125,19 +125,20 @@ class tube(menu):
         self.y=y
         img1=pygame.image.load(f'pic/png/{self.folder_name}/{self.file_name+1}.png').convert_alpha()
         self.img1=pygame.transform.scale(img1,(self.width,600))
-        self.rect01=img1.get_rect()
+        self.rect01=self.img1.get_rect()
     def tub_animations(self):
         self.rect.x-=1
         if self.rect.x<-self.width:
-            self.height=random.randint(200,600)
+            self.height=random.randint(200,1000)
             img=pygame.image.load(f'pic/png/{self.folder_name}/{self.file_name}.png').convert_alpha()
             self.image=pygame.transform.scale(img,(self.width,self.height))
             self.x=600-self.width
             self.rect = self.image.get_rect()
             self.rect.center=(self.x,self.y)
     def draw_tube(self):
+        self.rect01.topleft=(self.rect.x,self.rect.midbottom[1]+150)
         screen.blit(self.image,self.rect)
-        screen.blit(self.img1,(self.rect.x,self.rect.midbottom[1]+150))
+        screen.blit(self.img1,self.rect01)
 # print first menu
 def first_menu02():
     clock.tick(25)
@@ -295,6 +296,7 @@ tube03=tube(600,0,50,height,'tube',0)
 tube03_1=tube(600,0,50,height,'tube',2)
 # 
 run=True
+RED = (255, 0, 0)
 while run:
     # first_menu01()
     # first_menu02()
@@ -315,10 +317,13 @@ while run:
                 bird03.jump()
                 bird04.jump()
     # 
+    print(bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03))
     if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
         game_over_menu()
     if bird01.collide(tube01_1) or bird01.collide(tube02_1) or bird01.collide(tube03_1):
         game_over_menu()
+    # dòng phía dưới để vẽ ra dễ hình dung ống phía dưới
+    # pygame.draw.rect(screen, RED, tube01.rect01, 2)
     pygame.display.flip()
 pygame.quit()
 # 
