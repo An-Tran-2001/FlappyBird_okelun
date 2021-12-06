@@ -104,7 +104,14 @@ class bird(menu):
         self.rect.y+=self.movement
     def jump(self):
         self.movement=-8
-# 
+        pygame.mixer.music.load('music/wing.mp3')
+        pygame.mixer.music.play()
+    def collide(self, other):
+        return (other.rect.collidepoint(self.rect.topleft) or
+                other.rect.collidepoint(self.rect.topright) or
+                other.rect.collidepoint(self.rect.bottomleft) or
+                other.rect.collidepoint(self.rect.bottomright))
+#       
 class tube(menu):
     def __init__(self,x,y,width,height,folder_name,file_name):
         super().__init__(x,y,width,height,folder_name,file_name)
@@ -122,6 +129,7 @@ class tube(menu):
     def draw_tube(self):
         img1=pygame.image.load(f'pic/png/{self.folder_name}/{self.file_name+1}.png').convert_alpha()
         img1=pygame.transform.scale(img1,(self.width,600))
+        img1.get_rect()
         screen.blit(self.image,self.rect)
         screen.blit(img1,(self.rect.x,self.rect.midbottom[1]+150))
 # print first menu
@@ -279,6 +287,7 @@ tube02_1=tube(400,0,50,height,'tube',2)
 height=random.randint(100,600)
 tube03=tube(600,0,50,height,'tube',0)
 tube03_1=tube(600,0,50,height,'tube',2)
+# 
 run=True
 while run:
     # first_menu01()
@@ -299,6 +308,9 @@ while run:
                 bird02.jump()
                 bird03.jump()
                 bird04.jump()
+    # 
+    if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
+        print('collide')
     pygame.display.flip()
 pygame.quit()
 # 
