@@ -266,36 +266,35 @@ def socring_system():
         point_mp3=pygame.mixer.Sound('music/point.mp3')
         point_mp3.play()
 # choose bird
+def Sound_die():
+    die_mp3=pygame.mixer.Sound('music/game_over_real.mp3')
+    die_mp3.play()
 def choose_bird(die):
     if select_bird==1:
         ingame_bird01()
         if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
-            pygame.mixer.music.load('music/game_over_real.mp3')
-            pygame.mixer.music.play()
+            Sound_die()
             die=True
         if bird01.collide(tube01_1) or bird01.collide(tube02_1) or bird01.collide(tube03_1):
             die=True
     if select_bird==2:
         ingame_bird02()
         if bird02.collide(tube01) or bird02.collide(tube02) or bird02.collide(tube03):
-            pygame.mixer.music.load('music/game_over_real.mp3')
-            pygame.mixer.music.play()
+            Sound_die()
             die=True
         if bird02.collide(tube01_1) or bird02.collide(tube02_1) or bird02.collide(tube03_1):
             die=True
     if select_bird==3:
         ingame_bird03()
         if bird03.collide(tube01) or bird03.collide(tube02) or bird03.collide(tube03):
-            pygame.mixer.music.load('music/game_over_real.mp3')
-            pygame.mixer.music.play()
+            Sound_die()
             die=True
         if bird03.collide(tube01_1) or bird03.collide(tube02_1) or bird03.collide(tube03_1):
             die=True
     if select_bird==4:
         ingame_bird04()
         if bird04.collide(tube01) or bird04.collide(tube02) or bird04.collide(tube03):
-            pygame.mixer.music.load('music/game_over_real.mp3')
-            pygame.mixer.music.play()
+            Sound_die()
             die=True
         if bird04.collide(tube01_1) or bird04.collide(tube02_1) or bird04.collide(tube03_1):
             die=True
@@ -347,20 +346,21 @@ tube03_1=tube(600,0,50,height,'tube',2)
 socer=menu(210,25,20,25,'socer',0)
 socer_last=menu(190,25,20,25,'socer',0)  
 # select bird
-select_bird=4
+select_bird=1
 run=True
 die=False
+# check border
 RED = (255, 0, 0)
 while run:
     # first_menu01()
     # first_menu02()
-    if die==True:
-        game_over_menu()
     # select_map_01()
     # select_map_02()
     if die==False:
         die=choose_bird(die)
         socring_system()
+    if die==True:
+        game_over_menu()
     for event in pygame.event.get():
         if event.type==QUIT:
             run=False
