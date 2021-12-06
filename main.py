@@ -206,51 +206,45 @@ pygame.mixer.music.play(-1)
 def stop_mp3():
     pygame.mixer.music.stop()
 # in game 
+def draw_tube_of_bird_1_3():
+    tube01.draw_tube()  
+    tube01.tub_animations()
+    tube02.draw_tube() 
+    tube02.tub_animations()
+    tube03.draw_tube()
+    tube03.tub_animations()
+def draw_tube_of_bird_2_4():
+    tube01_1.draw_tube()  
+    tube01_1.tub_animations()
+    tube02_1.draw_tube() 
+    tube02_1.tub_animations()
+    tube03_1.draw_tube()
+    tube03_1.tub_animations()
 def ingame_bird01():
     clock.tick(60)
     background01.draw_bg_animations()
     bird01.draw_menu()
     bird01.bird_animations()
-    tube01.draw_tube()  
-    tube01.tub_animations()
-    tube02.draw_tube() 
-    tube02.tub_animations()
-    tube03.draw_tube()
-    tube03.tub_animations()
+    draw_tube_of_bird_1_3()
 def ingame_bird02():
     clock.tick(60)
     background02.draw_bg_animations()
     bird02.draw_menu()
     bird02.bird_animations()
-    tube01_1.draw_tube()  
-    tube01_1.tub_animations()
-    tube02_1.draw_tube() 
-    tube02_1.tub_animations()
-    tube03_1.draw_tube()
-    tube03_1.tub_animations()
+    draw_tube_of_bird_2_4()
 def ingame_bird03():
     clock.tick(60)
     background02.draw_bg_animations()
     bird03.draw_menu()
     bird03.bird_animations()
-    tube01.draw_tube()  
-    tube01.tub_animations()
-    tube02.draw_tube() 
-    tube02.tub_animations()
-    tube03.draw_tube()
-    tube03.tub_animations()
+    draw_tube_of_bird_1_3()
 def ingame_bird04():
     clock.tick(60)
     background02.draw_bg_animations()
     bird04.draw_menu()
     bird04.bird_animations()
-    tube01_1.draw_tube()  
-    tube01_1.tub_animations()
-    tube02_1.draw_tube() 
-    tube02_1.tub_animations()
-    tube03_1.draw_tube()
-    tube03_1.tub_animations()
-# 
+    draw_tube_of_bird_2_4()
+# socer
 def socring_system():
     socer.draw_menu()
     socer_last.draw_menu()
@@ -346,7 +340,7 @@ tube03_1=tube(600,0,50,height,'tube',2)
 socer=menu(210,25,20,25,'socer',0)
 socer_last=menu(190,25,20,25,'socer',0)  
 # select bird
-select_bird=1
+select_bird=4
 run=True
 die=False
 # check border
