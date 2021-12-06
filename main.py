@@ -123,6 +123,9 @@ class tube(menu):
         super().__init__(x,y,width,height,folder_name,file_name)
         self.x=x
         self.y=y
+        img1=pygame.image.load(f'pic/png/{self.folder_name}/{self.file_name+1}.png').convert_alpha()
+        self.img1=pygame.transform.scale(img1,(self.width,600))
+        self.rect01=img1.get_rect()
     def tub_animations(self):
         self.rect.x-=1
         if self.rect.x<-self.width:
@@ -133,11 +136,8 @@ class tube(menu):
             self.rect = self.image.get_rect()
             self.rect.center=(self.x,self.y)
     def draw_tube(self):
-        img1=pygame.image.load(f'pic/png/{self.folder_name}/{self.file_name+1}.png').convert_alpha()
-        img1=pygame.transform.scale(img1,(self.width,600))
-        self.rect01=img1.get_rect()
         screen.blit(self.image,self.rect)
-        screen.blit(img1,(self.rect.x,self.rect.midbottom[1]+150))
+        screen.blit(self.img1,(self.rect.x,self.rect.midbottom[1]+150))
 # print first menu
 def first_menu02():
     clock.tick(25)
@@ -315,7 +315,6 @@ while run:
                 bird03.jump()
                 bird04.jump()
     # 
-    print(bird01.rect.topleft)
     if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
         game_over_menu()
     if bird01.collide(tube01_1) or bird01.collide(tube02_1) or bird01.collide(tube03_1):
