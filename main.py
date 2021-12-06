@@ -115,7 +115,8 @@ class bird(menu):
                 other.rect01.collidepoint(self.rect.topright[0]-15,self.rect.topright[1]-10) or
                 other.rect01.collidepoint(self.rect.bottomleft[0]+30,self.rect.bottomleft[1]-15) or
                 other.rect01.collidepoint(self.rect.bottomright[0]-15,self.rect.bottomright[1]-15))
-
+    def socer(self,other):
+        return self.rect.x==(other.rect.x+other.width)
 #       
 class tube(menu):
     def __init__(self,x,y,width,height,folder_name,file_name):
@@ -249,6 +250,56 @@ def ingame_bird04():
     tube02_1.tub_animations()
     tube03_1.draw_tube()
     tube03_1.tub_animations()
+# 
+def socring_system():
+    socer.draw_menu()
+    socer_last.draw_menu()
+    if bird01.socer(tube01)==True or bird01.socer(tube02)==True or bird01.socer(tube03)==True or bird02.socer(tube01_1)==True or bird02.socer(tube02_1)==True or bird02.socer(tube03_1)==True or bird03.socer(tube01)==True or bird03.socer(tube02)==True or bird03.socer(tube03)==True or bird04.socer(tube01_1)==True or bird04.socer(tube02_1)==True or bird04.socer(tube03_1)==True:
+        socer.file_name+=1
+        if socer.file_name==9:
+            socer.file_name=0
+            socer_last.file_name+=1
+        img=pygame.image.load(f'pic/png/{socer.folder_name}/{socer.file_name}.png').convert_alpha()
+        socer.image=pygame.transform.scale(img,(socer.width,socer.height))
+        img1=pygame.image.load(f'pic/png/{socer_last.folder_name}/{socer_last.file_name}.png').convert_alpha()
+        socer_last.image=pygame.transform.scale(img1,(socer_last.width,socer_last.height))
+        point_mp3=pygame.mixer.Sound('music/point.mp3')
+        point_mp3.play()
+# choose bird
+def choose_bird(die):
+    if select_bird==1:
+        ingame_bird01()
+        if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
+            pygame.mixer.music.load('music/game_over_real.mp3')
+            pygame.mixer.music.play()
+            die=True
+        if bird01.collide(tube01_1) or bird01.collide(tube02_1) or bird01.collide(tube03_1):
+            die=True
+    if select_bird==2:
+        ingame_bird02()
+        if bird02.collide(tube01) or bird02.collide(tube02) or bird02.collide(tube03):
+            pygame.mixer.music.load('music/game_over_real.mp3')
+            pygame.mixer.music.play()
+            die=True
+        if bird02.collide(tube01_1) or bird02.collide(tube02_1) or bird02.collide(tube03_1):
+            die=True
+    if select_bird==3:
+        ingame_bird03()
+        if bird03.collide(tube01) or bird03.collide(tube02) or bird03.collide(tube03):
+            pygame.mixer.music.load('music/game_over_real.mp3')
+            pygame.mixer.music.play()
+            die=True
+        if bird03.collide(tube01_1) or bird03.collide(tube02_1) or bird03.collide(tube03_1):
+            die=True
+    if select_bird==4:
+        ingame_bird04()
+        if bird04.collide(tube01) or bird04.collide(tube02) or bird04.collide(tube03):
+            pygame.mixer.music.load('music/game_over_real.mp3')
+            pygame.mixer.music.play()
+            die=True
+        if bird04.collide(tube01_1) or bird04.collide(tube02_1) or bird04.collide(tube03_1):
+            die=True
+    return die
 # background
 background01=background(400,700,-1,'0','0','0')
 background02=background(800,700,-1,'1','1','1') 
@@ -292,28 +343,24 @@ tube02_1=tube(400,0,50,height,'tube',2)
 height=random.randint(100,600)
 tube03=tube(600,0,50,height,'tube',0)
 tube03_1=tube(600,0,50,height,'tube',2)
-# 
+# socer
+socer=menu(210,25,20,25,'socer',0)
+socer_last=menu(190,25,20,25,'socer',0)  
+# select bird
+select_bird=4
 run=True
 die=False
 RED = (255, 0, 0)
 while run:
     # first_menu01()
     # first_menu02()
-    # if die==True:
-    #     game_over_menu()
+    if die==True:
+        game_over_menu()
     # select_map_01()
     # select_map_02()
     if die==False:
-        ingame_bird01()
-        if bird01.collide(tube01) or bird01.collide(tube02) or bird01.collide(tube03):
-            pygame.mixer.music.load('music/game_over_real.mp3')
-            pygame.mixer.music.play()
-            die=True
-        if bird01.collide(tube01_1) or bird01.collide(tube02_1) or bird01.collide(tube03_1):
-            die=True
-    # ingame_bird02()
-    # ingame_bird03()
-    # ingame_bird04()
+        die=choose_bird(die)
+        socring_system()
     for event in pygame.event.get():
         if event.type==QUIT:
             run=False
