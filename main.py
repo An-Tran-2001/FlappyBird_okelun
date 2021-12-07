@@ -12,6 +12,8 @@ select_bird = 1
 run = True
 die = False
 first_open = True
+oke_map = False
+map_defult = True
 
 
 class background(pygame.sprite.Sprite):
@@ -72,6 +74,19 @@ class menu(pygame.sprite.Sprite):
             if pygame.mouse.get_pressed()[0] and self.click == False:
                 self.click = True
                 actions = True
+            if pygame.mouse.get_pressed()[0] == False and self.click == True:
+                self.click = False
+        screen.blit(self.image, self.rect)
+        return actions
+
+    def draw_button_else(self):
+        actions = True
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] and self.click == False:
+                self.click = True
+                actions = False
             if pygame.mouse.get_pressed()[0] == False and self.click == True:
                 self.click = False
         screen.blit(self.image, self.rect)
@@ -244,7 +259,6 @@ def select_map_01():
     clock.tick(25)
     background01.draw_bg_animations()
     select_background01.draw_menu()
-    oke_select_background.draw_menu()
     border02_select_background.draw_menu()
 
 
@@ -252,9 +266,6 @@ def select_map_02():
     clock.tick(25)
     background02.draw_bg_animations()
     select_background02.draw_menu()
-    oke_select_background.draw_menu()
-    next02_selcet_background.draw_menu()
-    next02_selcet_background.next02_select_map()
     border02_select_background.draw_menu()
 
 
@@ -444,22 +455,38 @@ while run:
         #
         click = click_every_where(click)
         #
-        first_menu01()
-        #
-        rate_online = rate.draw_button()
-        choose_map = menu_map.draw_button()
-
-    # first_menu02(first_open,choose_map)
+        if map_defult:
+            first_menu01()
+            #
+            rate_online = rate.draw_button()
+            choose_map = menu_map.draw_button()
+        # if map_defult == False:
+        #     first_menu02()
+        #     #
+        #     rate_online = rate.draw_button()
+        #     choose_map = menu_map.draw_button()
+            #
     #
 
     if choose_map:
+        if oke_map == False:
+            select_map_01()
+            oke_map = next01_selcet_background.draw_button()
+            next01_selcet_background.next01_select_map()
+            map_defult1 = oke_select_background.draw_button_else()
+        first_open = False
+    if choose_map:
+        if oke_map:
+            select_map_02()
+            oke_map = next02_selcet_background.draw_button_else()
+            next02_selcet_background.next02_select_map()
+            map_defult2 = oke_select_background.draw_button()
+    if rate_online:
         select_map_01()
         next01_selcet_background.draw_button()
         next01_selcet_background.next01_select_map()
         # select_map_02()
         first_open = False
-    if rate_online:
-        print('oke')
     if click == True and choose_map == False and rate_online == False:
         first_open = False
         if die == False:
@@ -473,7 +500,7 @@ while run:
         if event.type == KEYDOWN:
             if event.key == K_SPACE:
                 click = True
-                if click and choose_map == False:
+                if click and choose_map == False and rate_online == False:
                     if die == False:
                         bird01.jump()
                         bird02.jump()
