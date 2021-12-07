@@ -7,6 +7,11 @@ pygame.display.set_caption("Flappy Bird")
 #
 clock = pygame.time.Clock()
 #
+# conditions
+select_bird = 1
+run = True
+die = False
+first_open = True
 
 
 class background(pygame.sprite.Sprite):
@@ -54,9 +59,23 @@ class menu(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(img, (width, height))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
+        self.click = False
 
     def draw_menu(self):
         screen.blit(self.image, self.rect)
+
+    def draw_button(self):
+        actions = False
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] and self.click == False:
+                self.click = True
+                actions = True
+            if pygame.mouse.get_pressed()[0] == False and self.click == True:
+                self.click = False
+        screen.blit(self.image, self.rect)
+        return actions
 
     def bird_bg(self):
         self.file_name += 1
@@ -187,8 +206,6 @@ def first_menu():
     getready.draw_menu()
     bird_bg.bird_bg()
     bird_bg.draw_menu()
-    rate.draw_menu()
-    menu_map.draw_menu()
     suggetions01.sugestion_animations_01()
     suggetions01.draw_menu()
     suggetions02.sugestion_animations_01()
@@ -365,9 +382,19 @@ def choose_bird(die):
     return die
 
 
+#
+click = False
+
+
+def click_every_where(click):
+    if pygame.mouse.get_pressed()[0] and click == False:
+        click = True
+    return click
+
+
 # background
-background01 = background(400, 700, -1, '0', '0', '0')
-background02 = background(800, 700, -1, '1', '1', '1')
+background01 = background(400, 700, -2, '0', '0', '0')
+background02 = background(800, 700, -2, '1', '1', '1')
 # frist menu
 title = menu(200, 100, 400, 100, 'menu', '7')
 getready = menu(200, 500, 250, 50, 'menu', '2')
@@ -411,35 +438,45 @@ tube03_1 = tube(600, 0, 50, height, 'tube', 2)
 # socer
 socer = menu(210, 25, 20, 25, 'socer', 0)
 socer_last = menu(190, 25, 20, 25, 'socer', 0)
-# select bird
-select_bird = 1
-run = True
-die = False
 # check border
 RED = (255, 0, 0)
 while run:
     # chọn background thì tháo background trong con chym ra
-    # first_menu01()
-    # first_menu02()
+    if first_open:
+        #
+        click = click_every_where(click)
+        #
+        first_menu01()
+        #
+        rate_online = rate.draw_button()
+        choose_map = menu_map.draw_button()
+
+    # first_menu02(first_open,choose_map)
     #
-    # select_map_01()
-    # select_map_02()
-    #
-    if die == False:
-        die = choose_bird(die)
-        socring_system()
-    if die == True:
-        game_over_menu()
+    if choose_map:
+        select_map_01()
+        # select_map_02()
+        first_open = False
+    print(click)
+    if click:
+        first_open = False
+        if die == False:
+            die = choose_bird(die)
+            socring_system()
+        if die == True:
+            game_over_menu()
     for event in pygame.event.get():
         if event.type == QUIT:
             run = False
         if event.type == KEYDOWN:
             if event.key == K_SPACE:
-                if die == False:
-                    bird01.jump()
-                    bird02.jump()
-                    bird03.jump()
-                    bird04.jump()
+                click = True
+                if click:
+                    if die == False:
+                        bird01.jump()
+                        bird02.jump()
+                        bird03.jump()
+                        bird04.jump()
     # dòng phía dưới để vẽ ra dễ hình dung ống phía dưới
     # pygame.draw.rect(screen, RED, bird01.rect, 2)
     # pygame.draw.rect(screen, RED, tube01.rect, 2)
