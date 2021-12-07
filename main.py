@@ -245,8 +245,6 @@ def select_map_01():
     background01.draw_bg_animations()
     select_background01.draw_menu()
     oke_select_background.draw_menu()
-    next01_selcet_background.draw_menu()
-    next01_selcet_background.next01_select_map()
     border02_select_background.draw_menu()
 
 
@@ -453,12 +451,16 @@ while run:
 
     # first_menu02(first_open,choose_map)
     #
+
     if choose_map:
         select_map_01()
+        next01_selcet_background.draw_button()
+        next01_selcet_background.next01_select_map()
         # select_map_02()
         first_open = False
-    print(choose_map)
-    if click and choose_map == False:
+    if rate_online:
+        print('oke')
+    if click == True and choose_map == False and rate_online == False:
         first_open = False
         if die == False:
             die = choose_bird(die)
