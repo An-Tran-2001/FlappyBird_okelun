@@ -457,8 +457,8 @@ while run:
         select_map_01()
         # select_map_02()
         first_open = False
-    print(click)
-    if click:
+    print(choose_map)
+    if click and choose_map == False:
         first_open = False
         if die == False:
             die = choose_bird(die)
@@ -471,7 +471,7 @@ while run:
         if event.type == KEYDOWN:
             if event.key == K_SPACE:
                 click = True
-                if click:
+                if click and choose_map == False:
                     if die == False:
                         bird01.jump()
                         bird02.jump()
