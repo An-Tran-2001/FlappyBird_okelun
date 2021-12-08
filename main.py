@@ -27,11 +27,12 @@ class background(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(img, (width, height))
         cloud_img = pygame.image.load(
             f'pic/png/cloud/{self.cloud}.png').convert_alpha()
-        self.cloud_image = pygame.transform.scale(cloud_img, (width, height/3))
+        self.cloud_image = pygame.transform.scale(
+            cloud_img, (width, int(height/3)))
         floor_img = pygame.image.load(
             f'pic/png/floor/{self.floor}.png').convert_alpha()
         self.floor_image = pygame.transform.scale(
-            floor_img, (width, height/12))
+            floor_img, (width, int(height/12)))
         self.rect = self.image.get_rect()
 
     def draw_bg_animations(self):
@@ -460,40 +461,48 @@ while run:
             #
             rate_online = rate.draw_button()
             choose_map = menu_map.draw_button()
-        # if map_defult == False:
-        #     first_menu02()
-        #     #
-        #     rate_online = rate.draw_button()
-        #     choose_map = menu_map.draw_button()
+        if map_defult == False:
+            first_menu02()
             #
+            rate_online = rate.draw_button()
+            choose_map = menu_map.draw_button()
+
     #
 
     if choose_map:
+        first_open = False
         if oke_map == False:
             select_map_01()
             oke_map = next01_selcet_background.draw_button()
             next01_selcet_background.next01_select_map()
-            map_defult1 = oke_select_background.draw_button_else()
-        first_open = False
+            map_defult = oke_select_background.draw_button_else()
+            if map_defult == False:
+                first_open = True
+                oke_map = False
+                map_defult = True
     if choose_map:
         if oke_map:
             select_map_02()
             oke_map = next02_selcet_background.draw_button_else()
             next02_selcet_background.next02_select_map()
-            map_defult2 = oke_select_background.draw_button()
+            map_defult = oke_select_background.draw_button()
+            if map_defult == True:
+                first_open = True
+                oke_map = False
+                map_defult = False
     if rate_online:
         select_map_01()
         next01_selcet_background.draw_button()
         next01_selcet_background.next01_select_map()
         # select_map_02()
         first_open = False
-    if click == True and choose_map == False and rate_online == False:
-        first_open = False
-        if die == False:
-            die = choose_bird(die)
-            socring_system()
-        if die == True:
-            game_over_menu()
+    # if click == True and choose_map == False and rate_online == False:
+    #     first_open = False
+    #     if die == False:
+    #         die = choose_bird(die)
+    #         socring_system()
+    #     if die == True:
+    #         game_over_menu()
     for event in pygame.event.get():
         if event.type == QUIT:
             run = False
